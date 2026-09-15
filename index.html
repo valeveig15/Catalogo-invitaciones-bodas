@@ -1,128 +1,497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#161412" />
-  <meta name="description" content="Catálogo interactivo de invitaciones digitales de boda para exposición." />
-  <title>Invitaciones de boda · Catálogo interactivo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitaciones de Boda - 4 Estilos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-texture: #f9f8f6;
+      --text-dark: #2c2c2c;
+      --sage-green: #8b9e87;
+      --sage-light: #e8eee6;
+      --navy-vintage: #2b3a4a;
+    }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Prata&family=Sacramento&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1a1a1a;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* Selector de Tarjetas Top Nav */
+    .card-selector {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      z-index: 1000;
+      padding: 0 10px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    /* Slider Horizontal */
+    .slider-container {
+      display: flex;
+      width: 400vw;
+      height: 100vh;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .card-wrapper {
+      width: 100vw;
+      height: 100vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      background: var(--bg-texture);
+      position: relative;
+    }
+
+    /* General Card Elements */
+    .section-padding {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .btn-action {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------------------
+       DISEÑO 1: MINIMALISTA / CLÁSICA (Basado en Agus & Juan)
+    ------------------------------------------------------------- */
+    .card-1 {
+      background-color: #f7f6f2;
+      background-image: radial-gradient(#e0ded8 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    .card-1 .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .card-1 .bg-number {
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14rem;
+      color: rgba(0, 0, 0, 0.05);
+      line-height: 0.8;
+      user-select: none;
+      text-align: center;
+    }
+
+    .card-1 .names {
+      font-family: 'Alex Brush', cursive;
+      font-size: 4.5rem;
+      z-index: 2;
+      color: #111;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .card-1 .sub-title {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 4px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+      z-index: 2;
+    }
+
+    .card-1 .btn-action {
+      border: 1px solid #aaa;
+      background: transparent;
+      color: #333;
+    }
+
+    /* -------------------------------------------------------------
+       DISEÑO 2: BEACH & PHOTO HERO (Basado en Camila & Nicolás)
+    ------------------------------------------------------------- */
+    .card-2 .hero-photo {
+      height: 100vh;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4)), 
+                  url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80') center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+    }
+
+    .card-2 .hero-photo .tag {
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+
+    .card-2 .hero-photo .names {
+      font-family: 'Sacramento', cursive;
+      font-size: 5rem;
+    }
+
+    .card-2 .countdown-container {
+      background: #faf8f5;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .card-2 .time-box span {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #7d6e5d;
+    }
+
+    .card-2 .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .card-2 .gallery-grid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .card-2 .btn-action {
+      background: #7d6e5d;
+      color: #fff;
+    }
+
+    /* -------------------------------------------------------------
+       DISEÑO 3: VINTAGE / ILUSTRADA (Basado en Jose & Nico)
+    ------------------------------------------------------------- */
+    .card-3 {
+      background: #fdfbf7;
+      color: var(--navy-vintage);
+    }
+
+    .card-3 .hero-vintage {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card-3 .illustration {
+      width: 120px;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    .card-3 .names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .card-3 .quote-box {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      max-width: 450px;
+      margin: 30px auto;
+      color: #666;
+    }
+
+    .card-3 .circle-timer {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .card-3 .circle-item {
+      width: 65px;
+      height: 65px;
+      border: 1px solid var(--navy-vintage);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.75rem;
+    }
+
+    .card-3 .circle-item strong {
+      font-size: 1.1rem;
+    }
+
+    .card-3 .btn-action {
+      background: var(--navy-vintage);
+      color: #fff;
+    }
+
+    /* -------------------------------------------------------------
+       DISEÑO 4: BOTÁNICA / ROMÁNTICA (Basado en Nico & Sabri)
+    ------------------------------------------------------------- */
+    .card-4 {
+      background: #fff;
+    }
+
+    .card-4 .hero-botanical {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(to bottom, #f2f5f1, #ffffff);
+    }
+
+    .card-4 .leaf-bg {
+      position: absolute;
+      width: 180px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .card-4 .leaf-top-left { top: 0; left: 0; }
+    .card-4 .leaf-top-right { top: 0; right: 0; transform: scaleX(-1); }
+
+    .card-4 .names {
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      color: #384236;
+      margin: 15px 0;
+    }
+
+    .card-4 .date-badge {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: var(--sage-green);
+      margin-top: 10px;
+    }
+
+    .card-4 .date-badge span {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .card-4 .btn-action {
+      background: var(--sage-green);
+      color: #fff;
+    }
+
+    /* Grid de Información (Común a varias) */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .info-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      text-align: center;
+    }
+
+    .info-card h3 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .icon-svg {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+  </style>
 </head>
 <body>
-  <header class="expo-bar" aria-label="Navegación del catálogo">
-    <button class="round-control" id="prevInvitation" aria-label="Invitación anterior">
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
 
-    <div class="expo-title">
-      <span class="eyebrow">CATÁLOGO BODAS</span>
-      <strong id="currentModel">01 · Ivory Romance</strong>
-    </div>
+  <!-- Selector para deslizar horizontalmente entre estilos -->
+  <nav class="card-selector">
+    <button class="tab-btn active" onclick="slideTo(0)">1. Clásica</button>
+    <button class="tab-btn" onclick="slideTo(1)">2. Foto Hero</button>
+    <button class="tab-btn" onclick="slideTo(2)">3. Vintage</button>
+    <button class="tab-btn" onclick="slideTo(3)">4. Botánica</button>
+  </nav>
 
-    <button class="round-control" id="nextInvitation" aria-label="Invitación siguiente">
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-  </header>
+  <div class="slider-container" id="slider">
 
-  <nav class="model-dots" id="modelDots" aria-label="Elegir modelo"></nav>
-
-  <main class="horizontal-slider" id="invitationSlider">
-    <!-- Las invitaciones se generan desde script.js. -->
-  </main>
-
-  <div class="swipe-hint" id="swipeHint">
-    <i class="fa-solid fa-arrows-left-right"></i>
-    <span>Deslizá para explorar modelos</span>
-  </div>
-
-  <!-- MODAL RSVP -->
-  <div class="modal-overlay" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle">
-    <div class="modal-card">
-      <button class="modal-close" data-close-modal="rsvpModal" aria-label="Cerrar">×</button>
-      <p class="modal-kicker">RSVP</p>
-      <h2 id="rsvpTitle">Confirmar asistencia</h2>
-      <p class="modal-copy" id="rsvpCouple"></p>
-
-      <form id="rsvpForm">
-        <label>
-          Nombre y apellido
-          <input id="rsvpName" name="name" autocomplete="name" required placeholder="Ej.: María López" />
-        </label>
-
-        <label>
-          ¿Asistís?
-          <select id="rsvpAttendance" name="attendance" required>
-            <option value="Sí, asistiré">Sí, asistiré</option>
-            <option value="No podré asistir">No podré asistir</option>
-          </select>
-        </label>
-
-        <label>
-          Restricción alimentaria
-          <select id="rsvpDiet" name="diet">
-            <option value="Ninguna">Ninguna</option>
-            <option value="Vegetariano">Vegetariano</option>
-            <option value="Vegano">Vegano</option>
-            <option value="Sin gluten">Sin gluten</option>
-            <option value="Otra">Otra</option>
-          </select>
-        </label>
-
-        <label>
-          Mensaje opcional
-          <textarea id="rsvpMessage" name="message" rows="3" placeholder="Un mensaje para la pareja…"></textarea>
-        </label>
-
-        <button class="modal-primary" type="submit">
-          <i class="fa-solid fa-check"></i> Enviar confirmación demo
-        </button>
-      </form>
-      <p class="demo-note">En GitHub Pages este formulario funciona como demo local. Para recibir respuestas reales se conecta luego a Formspree, Google Forms, Sheets o un backend.</p>
-    </div>
-  </div>
-
-  <!-- MODAL CANCIÓN -->
-  <div class="modal-overlay" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle">
-    <div class="modal-card">
-      <button class="modal-close" data-close-modal="songModal" aria-label="Cerrar">×</button>
-      <p class="modal-kicker">PLAYLIST</p>
-      <h2 id="songTitle">Sugerí una canción</h2>
-      <form id="songForm">
-        <label>
-          Canción y artista
-          <input id="songInput" required placeholder="Ej.: Yellow · Coldplay" />
-        </label>
-        <button class="modal-primary" type="submit"><i class="fa-solid fa-music"></i> Enviar sugerencia</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL REGALOS -->
-  <div class="modal-overlay" id="giftModal" role="dialog" aria-modal="true" aria-labelledby="giftTitle">
-    <div class="modal-card">
-      <button class="modal-close" data-close-modal="giftModal" aria-label="Cerrar">×</button>
-      <p class="modal-kicker">REGALOS</p>
-      <h2 id="giftTitle">Mesa de regalos</h2>
-      <p class="modal-copy">Esta sección puede mostrar lista de regalos, alias bancario, transferencia o una experiencia elegida por la pareja.</p>
-      <div class="gift-demo">
-        <i class="fa-solid fa-gift"></i>
-        <div>
-          <strong>Ejemplo de demostración</strong>
-          <span>Alias: NUESTRA.BODA.DEMO</span>
+    <!-- 1. TARJETA MINIMALISTA / CLÁSICA -->
+    <div class="card-wrapper card-1">
+      <section class="hero">
+        <div class="bg-number">22<br>11</div>
+        <div class="names">Sofía & Mateo</div>
+        <div class="sub-title">¡NOS CASAMOS!</div>
+      </section>
+      
+      <section class="section-padding">
+        <div class="info-grid">
+          <div class="info-card">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+            <h3>CEREMONIA</h3>
+            <p>19:00 hs — Parroquia San Martín</p>
+            <a href="#" class="btn-action">Ver Mapa</a>
+          </div>
+          <div class="info-card">
+            <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+            <h3>FIESTA</h3>
+            <p>20:30 hs — Quinta Los Olivos</p>
+            <a href="#" class="btn-action">Cómo Llegar</a>
+          </div>
         </div>
-      </div>
-      <button class="modal-primary" id="copyGiftAlias" type="button"><i class="fa-regular fa-copy"></i> Copiar alias</button>
+      </section>
     </div>
+
+    <!-- 2. TARJETA PHOTO HERO / PLAYA -->
+    <div class="card-wrapper card-2">
+      <section class="hero-photo">
+        <div class="tag">¡NOS CASAMOS!</div>
+        <div class="names">Valentina & Lucas</div>
+      </section>
+
+      <div class="countdown-container">
+        <div class="time-box"><span>62</span>Días</div>
+        <div class="time-box"><span>07</span>Hs</div>
+        <div class="time-box"><span>43</span>Min</div>
+      </div>
+
+      <section class="section-padding">
+        <h2 style="font-family:'Cinzel', serif; margin-bottom: 20px;">NUESTRA HISTORIA</h2>
+        <div class="gallery-grid">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80" alt="Foto 1">
+          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=500&q=80" alt="Foto 2">
+          <img src="https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=500&q=80" alt="Foto 3">
+        </div>
+        <a href="#" class="btn-action">Confirmar Asistencia</a>
+      </section>
+    </div>
+
+    <!-- 3. TARJETA VINTAGE / ILUSTRADA -->
+    <div class="card-wrapper card-3">
+      <section class="hero-vintage">
+        <!-- SVG Champagne Tower Illustration placeholder -->
+        <svg class="illustration" viewBox="0 0 64 64" fill="currentColor">
+          <path d="M32 2L20 24h24L32 2zm-8 26v32h16V28H24z"/>
+        </svg>
+        <div class="names">Clara & Santiago</div>
+        <p style="letter-spacing: 2px; margin-top: 10px;">¡NOS CASAMOS!</p>
+        
+        <div class="quote-box">
+          "Andábamos sin buscarnos, pero sabiendo que andábamos para encontrarnos."
+        </div>
+
+        <div class="circle-timer">
+          <div class="circle-item"><strong>69</strong>Días</div>
+          <div class="circle-item"><strong>07</strong>Hs</div>
+          <div class="circle-item"><strong>12</strong>Min</div>
+        </div>
+
+        <a href="#" class="btn-action">Agendar Evento</a>
+      </section>
+    </div>
+
+    <!-- 4. TARJETA BOTÁNICA / ELEGANTE -->
+    <div class="card-wrapper card-4">
+      <section class="hero-botanical">
+        <!-- Botanical Leaves SVG Decorative Icons -->
+        <svg class="leaf-bg leaf-top-left" viewBox="0 0 100 100" fill="#8b9e87">
+          <path d="M0 0 C 50 0, 100 50, 100 100 C 50 100, 0 50, 0 0 Z"/>
+        </svg>
+        <svg class="leaf-bg leaf-top-right" viewBox="0 0 100 100" fill="#8b9e87">
+          <path d="M0 0 C 50 0, 100 50, 100 100 C 50 100, 0 50, 0 0 Z"/>
+        </svg>
+
+        <p style="letter-spacing: 3px; font-size: 0.8rem; color: #666;">¡NOS CASAMOS!</p>
+        <div class="names">LUCÍA & TOMÁS</div>
+        
+        <div class="date-badge">
+          NOV <span>22</span> 2026
+        </div>
+      </section>
+
+      <section class="section-padding" style="background-color: var(--sage-light);">
+        <h3 style="font-family:'Cinzel', serif; color: #384236;">CONFIRMACIÓN DE ASISTENCIA</h3>
+        <p style="margin: 15px 0; color: #555;">Esperamos que seas parte de esta gran celebración.</p>
+        <a href="#" class="btn-action">Confirmar Asistencia</a>
+      </section>
+    </div>
+
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    function slideTo(index) {
+      const slider = document.getElementById('slider');
+      slider.style.transform = `translateX(-${index * 100}vw)`;
+      
+      // Update active button state
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+    }
+  </script>
 </body>
 </html>
