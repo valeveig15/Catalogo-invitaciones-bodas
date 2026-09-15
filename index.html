@@ -1,345 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muestra de Invitaciones Digitales de Boda</title>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#161412" />
+  <meta name="description" content="Catálogo interactivo de invitaciones digitales de boda para exposición." />
+  <title>Invitaciones de boda · Catálogo interactivo</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Prata&family=Sacramento&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
+  <header class="expo-bar" aria-label="Navegación del catálogo">
+    <button class="round-control" id="prevInvitation" aria-label="Invitación anterior">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
 
-  <div class="top-nav-hint">
-    <i class="fa-solid fa-arrows-left-right"></i> Desliza horizontalmente para ver distintos modelos de boda
+    <div class="expo-title">
+      <span class="eyebrow">CATÁLOGO BODAS</span>
+      <strong id="currentModel">01 · Ivory Romance</strong>
+    </div>
+
+    <button class="round-control" id="nextInvitation" aria-label="Invitación siguiente">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </header>
+
+  <nav class="model-dots" id="modelDots" aria-label="Elegir modelo"></nav>
+
+  <main class="horizontal-slider" id="invitationSlider">
+    <!-- Las invitaciones se generan desde script.js. -->
+  </main>
+
+  <div class="swipe-hint" id="swipeHint">
+    <i class="fa-solid fa-arrows-left-right"></i>
+    <span>Deslizá para explorar modelos</span>
   </div>
 
-  <div class="horizontal-slider">
+  <!-- MODAL RSVP -->
+  <div class="modal-overlay" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle">
+    <div class="modal-card">
+      <button class="modal-close" data-close-modal="rsvpModal" aria-label="Cerrar">×</button>
+      <p class="modal-kicker">RSVP</p>
+      <h2 id="rsvpTitle">Confirmar asistencia</h2>
+      <p class="modal-copy" id="rsvpCouple"></p>
 
-    <!-- ==============================================================
-         1. BODA CLÁSICA & ELEGANTE (Sofía & Mateo)
-         ============================================================== -->
-    <div class="card-wrapper theme-classic-gold" id="card1">
-      <div class="start-screen" id="env1">
-        <i class="fa-solid fa-envelope-open-text" style="font-size: 3.5rem; color: #d4af37; margin-bottom: 15px;"></i>
-        <h2 style="font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: #fce4ec;">Sofía & Mateo</h2>
-        <p style="letter-spacing: 2px; margin: 15px 0 25px; color: #d4af37; font-size: 0.85rem;">NUESTRA BODA - INVITACIÓN ESPECIAL</p>
-        <button class="btn-start-custom" onclick="openEnvelope('env1')">
-          <i class="fa-solid fa-heart"></i> ABRIR INVITACIÓN
+      <form id="rsvpForm">
+        <label>
+          Nombre y apellido
+          <input id="rsvpName" name="name" autocomplete="name" required placeholder="Ej.: María López" />
+        </label>
+
+        <label>
+          ¿Asistís?
+          <select id="rsvpAttendance" name="attendance" required>
+            <option value="Sí, asistiré">Sí, asistiré</option>
+            <option value="No podré asistir">No podré asistir</option>
+          </select>
+        </label>
+
+        <label>
+          Restricción alimentaria
+          <select id="rsvpDiet" name="diet">
+            <option value="Ninguna">Ninguna</option>
+            <option value="Vegetariano">Vegetariano</option>
+            <option value="Vegano">Vegano</option>
+            <option value="Sin gluten">Sin gluten</option>
+            <option value="Otra">Otra</option>
+          </select>
+        </label>
+
+        <label>
+          Mensaje opcional
+          <textarea id="rsvpMessage" name="message" rows="3" placeholder="Un mensaje para la pareja…"></textarea>
+        </label>
+
+        <button class="modal-primary" type="submit">
+          <i class="fa-solid fa-check"></i> Enviar confirmación demo
         </button>
-      </div>
-
-      <section class="card-section">
-        <h2>¡Nos Casamos!</h2>
-        <h1>Sofía & Mateo</h1>
-        <p class="quote">"El amor no consiste en mirarse el uno al otro, sino en mirar juntos en la misma dirección."</p>
-        
-        <div class="countdown-grid">
-          <div class="time-box"><span class="num" id="d1">00</span><span class="label">Días</span></div>
-          <div class="time-box"><span class="num" id="h1">00</span><span class="label">Horas</span></div>
-          <div class="time-box"><span class="num" id="m1">00</span><span class="label">Min</span></div>
-          <div class="time-box"><span class="num" id="s1">00</span><span class="label">Seg</span></div>
-        </div>
-
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" class="photo-frame" alt="Sofía y Mateo">
-        <p style="letter-spacing: 3px; font-weight: 600; color: #d4af37;">SÁBADO 14 DE NOVIEMBRE DE 2026</p>
-        <p style="font-size: 0.9rem; margin-top: 2px;">MONTEVIDEO, URUGUAY</p>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i> Desliza abajo</div>
-      </section>
-
-      <section class="card-section">
-        <h2>Itinerario del Día</h2>
-        <div class="info-card">
-          <div class="timeline">
-            <div class="timeline-item"><span class="timeline-time">18:00 HS</span> Ceremonia Religiosa</div>
-            <div class="timeline-item"><span class="timeline-time">19:30 HS</span> Recepción & Cóctel</div>
-            <div class="timeline-item"><span class="timeline-time">21:00 HS</span> Cena de Gala</div>
-            <div class="timeline-item"><span class="timeline-time">23:00 HS</span> Fiesta & Cotillón</div>
-          </div>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <h2>Ubicaciones & Detalles</h2>
-        <div class="info-card">
-          <i class="fa-solid fa-church" style="font-size: 1.8rem; color: #d4af37;"></i>
-          <h3>Ceremonia Religiosa</h3>
-          <p style="font-size: 0.85rem; margin-top: 5px;">Iglesia de las Carmelitas - 18:00 HS</p>
-          <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fa-solid fa-map-pin"></i> Ver Mapa Ceremonia</a>
-        </div>
-        <div class="info-card">
-          <i class="fa-solid fa-champagne-glasses" style="font-size: 1.8rem; color: #d4af37;"></i>
-          <h3>Fiesta & Celebración</h3>
-          <p style="font-size: 0.85rem; margin-top: 5px;">Salón del Prado - 19:30 HS</p>
-          <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fa-solid fa-location-dot"></i> Ver Mapa Fiesta</a>
-        </div>
-        <div class="info-card">
-          <i class="fa-solid fa-user-tie" style="font-size: 1.5rem; color: #d4af37;"></i>
-          <h3>Dress Code</h3>
-          <p style="font-size: 0.85rem;">Elegante / Traje Oscuro y Vestido Largo.</p>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <h2>Mesa de Regalos & Música</h2>
-        <div class="info-card">
-          <i class="fa-solid fa-gift" style="font-size: 1.8rem; color: #d4af37;"></i>
-          <h3>Regalos / Colectivo</h3>
-          <p style="font-size: 0.85rem; margin-bottom: 10px;">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio:</p>
-          <button class="btn-action" onclick="openGiftModal('Sofía & Mateo', '0000003100012345678901', 'SOFIA.MATEO.BODA')">
-            <i class="fa-solid fa-credit-card"></i> Ver Datos de Cuenta / Alias
-          </button>
-        </div>
-        <div class="info-card">
-          <h3>Playlist Participativa</h3>
-          <button class="btn-action" onclick="openSongModal('Sofía & Mateo')"><i class="fa-solid fa-music"></i> Recomendar Canción</button>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" class="photo-frame" alt="Novios">
-        <h2>Confirmación</h2>
-        <p style="font-size: 0.85rem; margin-bottom: 8px;">Por favor confirmar antes del 20 de Octubre</p>
-        <button class="btn-action" onclick="openRSVP('Sofía & Mateo')"><i class="fa-solid fa-envelope"></i> Confirmar Asistencia</button>
-        <h3 style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #d4af37; margin-top: 15px;">¡Los esperamos con mucha ilusión!</h3>
-      </section>
+      </form>
+      <p class="demo-note">En GitHub Pages este formulario funciona como demo local. Para recibir respuestas reales se conecta luego a Formspree, Google Forms, Sheets o un backend.</p>
     </div>
+  </div>
 
-    <!-- ==============================================================
-         2. BODA BOTÁNICA / ROMÁNTICA (Camila & Lucas)
-         ============================================================== -->
-    <div class="card-wrapper theme-romantic-floral" id="card2">
-      <div class="start-screen" id="env2">
-        <i class="fa-solid fa-leaf" style="font-size: 3.5rem; color: #a3b18a; margin-bottom: 15px;"></i>
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #dad7cd;">Camila & Lucas</h2>
-        <p style="letter-spacing: 2px; margin: 15px 0 25px; color: #a3b18a; font-size: 0.85rem;">NUESTRA BODA EN EL JARDÍN</p>
-        <button class="btn-start-custom" onclick="openEnvelope('env2')">
-          <i class="fa-solid fa-seedling"></i> ENTRAR A LA INVITACIÓN
-        </button>
-      </div>
-
-      <section class="card-section">
-        <h2>Unimos Nuestras Vidas</h2>
-        <h1>Camila & Lucas</h1>
-        <p class="quote">"Para siempre empieza hoy..."</p>
-        
-        <div class="countdown-grid">
-          <div class="time-box"><span class="num" id="d2">00</span><span class="label">Días</span></div>
-          <div class="time-box"><span class="num" id="h2">00</span><span class="label">Horas</span></div>
-          <div class="time-box"><span class="num" id="m2">00</span><span class="label">Min</span></div>
-          <div class="time-box"><span class="num" id="s2">00</span><span class="label">Seg</span></div>
-        </div>
-
-        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" class="photo-frame" alt="Camila y Lucas">
-        <p style="letter-spacing: 3px; font-weight: 600; color: #a3b18a;">SÁBADO 12 DE DICIEMBRE DE 2026</p>
-        <p style="font-size: 0.9rem; margin-top: 2px;">17:00 HS - CHACRA LOS OLIVOS</p>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i> Desliza abajo</div>
-      </section>
-
-      <section class="card-section">
-        <h2>Ubicación del Evento</h2>
-        <div class="info-card">
-          <i class="fa-solid fa-tree" style="font-size: 1.8rem; color: #a3b18a;"></i>
-          <h3>Chacra & Jardín Los Olivos</h3>
-          <p style="font-size: 0.85rem; margin-top: 5px;">Ceremonia al aire libre + Fiesta en Salón</p>
-          <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fa-solid fa-map-location-dot"></i> Cómo Llegar (GPS)</a>
-        </div>
-        <div class="info-card">
-          <i class="fa-solid fa-shirt" style="font-size: 1.5rem; color: #a3b18a;"></i>
-          <h3>Dress Code</h3>
-          <p style="font-size: 0.85rem;">Formal Campo / Elegante de Día.</p>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <h2>Obsequios & Álbum</h2>
-        <div class="info-card">
-          <i class="fa-solid fa-piggy-bank" style="font-size: 1.8rem; color: #a3b18a;"></i>
-          <h3>Luna de Miel</h3>
-          <p style="font-size: 0.85rem; margin-bottom: 8px;">Si deseas colaborar con nuestra luna de miel:</p>
-          <button class="btn-action" onclick="openGiftModal('Camila & Lucas', '0000004500098765432109', 'CAMI.LUCAS.LUNA')">
-            <i class="fa-solid fa-plane"></i> Datos Bancarios
-          </button>
-        </div>
-        <div class="info-card">
-          <h3>Fotos Compartidas</h3>
-          <a href="https://photos.google.com" target="_blank" class="btn-action btn-gallery"><i class="fa-solid fa-camera"></i> Álbum del Evento</a>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <h2>Confirmar Asistencia</h2>
-        <p style="font-size: 0.85rem; margin: 8px 0;">Por favor confirma antes del 1 de Diciembre</p>
-        <button class="btn-action" onclick="openRSVP('Camila & Lucas')"><i class="fa-solid fa-check"></i> Confirmar RSVP</button>
-      </section>
+  <!-- MODAL CANCIÓN -->
+  <div class="modal-overlay" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle">
+    <div class="modal-card">
+      <button class="modal-close" data-close-modal="songModal" aria-label="Cerrar">×</button>
+      <p class="modal-kicker">PLAYLIST</p>
+      <h2 id="songTitle">Sugerí una canción</h2>
+      <form id="songForm">
+        <label>
+          Canción y artista
+          <input id="songInput" required placeholder="Ej.: Yellow · Coldplay" />
+        </label>
+        <button class="modal-primary" type="submit"><i class="fa-solid fa-music"></i> Enviar sugerencia</button>
+      </form>
     </div>
+  </div>
 
-    <!-- ==============================================================
-         3. BODA DESTINO / PLAYA (Valentina & Santiago)
-         ============================================================== -->
-    <div class="card-wrapper theme-beach-destination" id="card3">
-      <div class="start-screen" id="env3">
-        <i class="fa-solid fa-umbrella-beach" style="font-size: 3.5rem; color: #00b4d8; margin-bottom: 15px;"></i>
-        <h2 style="font-family: 'Cinzel', serif; font-size: 2.5rem; color: #90e0ef;">Valentina & Santiago</h2>
-        <p style="letter-spacing: 2px; margin: 15px 0 25px; color: #00b4d8; font-size: 0.85rem;">BODA EN LA PLAYA</p>
-        <button class="btn-start-custom" onclick="openEnvelope('env3')">
-          <i class="fa-solid fa-compass"></i> VER INVITACIÓN
-        </button>
-      </div>
-
-      <section class="card-section">
-        <h2>Boda de Destino</h2>
-        <h1>Valentina & Santiago</h1>
-        <p class="quote">"El mar, la arena y nuestro amor..."</p>
-        
-        <div class="countdown-grid">
-          <div class="time-box"><span class="num" id="d3">00</span><span class="label">Días</span></div>
-          <div class="time-box"><span class="num" id="h3">00</span><span class="label">Horas</span></div>
-          <div class="time-box"><span class="num" id="m3">00</span><span class="label">Min</span></div>
-          <div class="time-box"><span class="num" id="s3">00</span><span class="label">Seg</span></div>
-        </div>
-
-        <img src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=600&q=80" class="photo-frame" alt="Boda Playa">
-        <p style="letter-spacing: 3px; font-weight: 600; color: #00b4d8;">SÁBADO 16 DE ENERO DE 2027</p>
-        <p style="font-size: 0.9rem; margin-top: 2px;">PUNTA DEL ESTE, URUGUAY</p>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i> Desliza abajo</div>
-      </section>
-
-      <section class="card-section">
-        <h2>Lugar & Hospedaje</h2>
-        <div class="info-card">
-          <i class="fa-solid fa-hotel" style="font-size: 1.8rem; color: #00b4d8;"></i>
-          <h3>Parador Sunset Beach</h3>
-          <p style="font-size: 0.85rem; margin-top: 5px;">Ceremonia al atardecer 18:30 HS</p>
-          <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fa-solid fa-location-dot"></i> Ver Mapa</a>
-        </div>
-        <div class="info-card">
-          <i class="fa-solid fa-glasses" style="font-size: 1.5rem; color: #00b4d8;"></i>
-          <h3>Dress Code</h3>
-          <p style="font-size: 0.85rem;">Beach Chic / Blanco & Tonos Pastel.</p>
-        </div>
-        <div class="scroll-down-hint"><i class="fa-solid fa-chevron-down"></i></div>
-      </section>
-
-      <section class="card-section">
-        <h2>Confirmar RSVP</h2>
-        <button class="btn-action" onclick="openRSVP('Valentina & Santiago')"><i class="fa-solid fa-paper-plane"></i> Confirmar Asistencia</button>
-      </section>
-    </div>
-
-    <!-- ==============================================================
-         4. TARJETAS RÁPIDAS (UNA CARILLA)
-         ============================================================== -->
-    <div class="card-wrapper single-page">
-      <div class="invitation-card style-gala-gold">
+  <!-- MODAL REGALOS -->
+  <div class="modal-overlay" id="giftModal" role="dialog" aria-modal="true" aria-labelledby="giftTitle">
+    <div class="modal-card">
+      <button class="modal-close" data-close-modal="giftModal" aria-label="Cerrar">×</button>
+      <p class="modal-kicker">REGALOS</p>
+      <h2 id="giftTitle">Mesa de regalos</h2>
+      <p class="modal-copy">Esta sección puede mostrar lista de regalos, alias bancario, transferencia o una experiencia elegida por la pareja.</p>
+      <div class="gift-demo">
+        <i class="fa-solid fa-gift"></i>
         <div>
-          <p style="text-transform:uppercase; font-size:0.75rem; letter-spacing:4px; color:#d4af37;">INVITACIÓN DE BODA</p>
-          <h1 class="main-title">Isabella & Tomás</h1>
-          <p class="sub-title">NOS CASAMOS</p>
-        </div>
-
-        <div class="countdown-grid">
-          <div class="time-box"><span class="num" id="sd1">00</span><span class="label">Días</span></div>
-          <div class="time-box"><span class="num" id="sh1">00</span><span class="label">Horas</span></div>
-          <div class="time-box"><span class="num" id="sm1">00</span><span class="label">Min</span></div>
-          <div class="time-box"><span class="num" id="ss1">00</span><span class="label">Seg</span></div>
-        </div>
-
-        <div class="info-section">
-          <p><i class="fa-regular fa-calendar-check" style="color:#d4af37;"></i> Sábado, 21 de Noviembre - 20:00 HS</p>
-          <p><i class="fa-solid fa-location-dot" style="color:#d4af37;"></i> Castillo de Soneira</p>
-          <p style="font-size:0.8rem; color:#d4af37; opacity:0.8;">Dress Code: Black Tie / Etiqueta</p>
-        </div>
-
-        <div class="action-buttons">
-          <button class="accent-btn" onclick="openRSVP('Isabella & Tomás')"><i class="fa-solid fa-envelope"></i> CONFIRMAR RSVP</button>
-          <button class="btn-secondary" onclick="openGiftModal('Isabella & Tomás', '0000001200033344455566', 'ISABELLA.TOMAS')"><i class="fa-solid fa-gift"></i> Regalos</button>
+          <strong>Ejemplo de demostración</strong>
+          <span>Alias: NUESTRA.BODA.DEMO</span>
         </div>
       </div>
-    </div>
-
-  </div>
-
-  <!-- MODAL RSVP GLOBAL -->
-  <div class="modal-overlay" id="rsvpModal">
-    <div class="modal-box">
-      <span class="modal-close" onclick="closeRSVP()">&times;</span>
-      <h3 id="rsvpTitle">Confirmar Asistencia</h3>
-      <form onsubmit="submitRSVP(event)">
-        <label>Nombre y Apellido:</label>
-        <input type="text" id="rsvpName" required placeholder="Ej: María y Juan Pérez">
-
-        <label>¿Asistirás al Evento?:</label>
-        <select id="rsvpStatus">
-          <option value="Si">¡Sí, con mucho gusto asistiré!</option>
-          <option value="No">Lamentablemente no podré asistir</option>
-        </select>
-
-        <label>Cantidad de Acompañantes:</label>
-        <input type="number" id="rsvpGuests" min="0" max="5" value="0">
-
-        <label>Menú o Preferencia Alimenticia:</label>
-        <select id="rsvpDiet">
-          <option value="Tradicional">Menú Tradicional</option>
-          <option value="Celíaco">Celíaco / Sin Gluten</option>
-          <option value="Vegetariano">Vegetariano</option>
-          <option value="Vegano">Vegano</option>
-          <option value="Infantil">Menú Infantil</option>
-        </select>
-
-        <button type="submit" class="btn-action" style="width: 100%; margin-top: 20px; justify-content: center;">
-          Enviar Confirmación
-        </button>
-      </form>
+      <button class="modal-primary" id="copyGiftAlias" type="button"><i class="fa-regular fa-copy"></i> Copiar alias</button>
     </div>
   </div>
 
-  <!-- MODAL SUGERIR CANCIÓN -->
-  <div class="modal-overlay" id="songModal">
-    <div class="modal-box">
-      <span class="modal-close" onclick="closeSongModal()">&times;</span>
-      <h3>Sugerir Tema para la Pista</h3>
-      <form onsubmit="submitSong(event)">
-        <label>Canción y Artista:</label>
-        <input type="text" id="songInput" required placeholder="Ej: Ed Sheeran - Perfect">
-
-        <button type="submit" class="btn-action" style="width: 100%; margin-top: 20px; justify-content: center;">
-          Enviar a los Novios
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL REGALOS / CBU -->
-  <div class="modal-overlay" id="giftModal">
-    <div class="modal-box">
-      <span class="modal-close" onclick="closeGiftModal()">&times;</span>
-      <h3 id="giftTitle">Mesa de Regalos</h3>
-      <p style="font-size: 0.85rem; margin: 10px 0; color: #ccc;">Agradecemos inmensamente tu muestra de cariño:</p>
-      
-      <label>CBU / Cuenta Bancaria:</label>
-      <input type="text" id="giftCBU" readonly>
-
-      <label>Alias / Colectivo:</label>
-      <input type="text" id="giftAlias" readonly>
-
-      <button class="btn-action" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="copyAccountData()">
-        <i class="fa-solid fa-copy"></i> Copiar Datos
-      </button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
