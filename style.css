@@ -1,0 +1,428 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #0d0d0d;
+  color: #fff;
+}
+
+/* Indicador Superior */
+.top-nav-hint {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: pulseHint 2.5s infinite;
+}
+
+@keyframes pulseHint {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+  50% { transform: translateX(-50%) scale(1.04); opacity: 1; }
+}
+
+/* Contenedor Slider Horizontal */
+.horizontal-slider {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.card-wrapper {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  position: relative;
+}
+
+.card-wrapper.single-page {
+  overflow-y: auto;
+  scroll-snap-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.card-section {
+  width: 100%;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  position: relative;
+}
+
+.quote {
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+  margin: 10px 0 15px;
+  max-width: 340px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Contador Regresivo */
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+  z-index: 2;
+}
+
+.time-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 12px;
+  min-width: 65px;
+  text-align: center;
+}
+
+.time-box .num {
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: block;
+}
+
+.time-box .label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+/* Botones de Acción */
+.btn-action {
+  margin-top: 10px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-action:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 380px;
+  width: 100%;
+  margin: 10px 0;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.photo-frame {
+  width: 210px;
+  height: 270px;
+  border-radius: 18px;
+  object-fit: cover;
+  margin: 12px 0;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.scroll-down-hint {
+  position: absolute;
+  bottom: 20px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  animation: bounceDown 2s infinite;
+}
+
+@keyframes bounceDown {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-8px); }
+}
+
+.timeline {
+  width: 100%;
+  max-width: 340px;
+  text-align: left;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.88rem;
+}
+
+.timeline-time {
+  font-weight: 700;
+  min-width: 75px;
+}
+
+.btn-gallery {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: #fff;
+}
+
+/* Pantalla de Inicio / Sobre */
+.start-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+  padding: 20px;
+  text-align: center;
+}
+
+.start-screen.opened {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-start-custom {
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.btn-start-custom:hover { transform: scale(1.05); }
+
+/* TEMAS / ESTILOS DE BODA */
+
+/* 1. Clásico & Elegante Dorado */
+.theme-classic-gold {
+  background: #14110f;
+  color: #fce4ec;
+  font-family: 'Cormorant Garamond', serif;
+}
+.theme-classic-gold .card-section {
+  background: radial-gradient(circle, #241d18 0%, #0d0b09 100%);
+}
+.theme-classic-gold h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 4.2rem;
+  color: #d4af37;
+}
+.theme-classic-gold h2 {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 3px;
+  color: #fce4ec;
+}
+.theme-classic-gold .btn-action, .theme-classic-gold .btn-start-custom {
+  background: #d4af37;
+  color: #14110f;
+}
+.theme-classic-gold .start-screen {
+  background: radial-gradient(circle, #2d221e 0%, #110e0c 100%);
+}
+
+/* 2. Botánico & Romántico */
+.theme-romantic-floral {
+  background: #0f1712;
+  color: #e2ece9;
+  font-family: 'Playfair Display', serif;
+}
+.theme-romantic-floral .card-section {
+  background: radial-gradient(circle, #1a281f 0%, #090e0b 100%);
+}
+.theme-romantic-floral h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: #a3b18a;
+}
+.theme-romantic-floral h2 {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 2px;
+  color: #dad7cd;
+}
+.theme-romantic-floral .btn-action, .theme-romantic-floral .btn-start-custom {
+  background: #a3b18a;
+  color: #0f1712;
+}
+.theme-romantic-floral .start-screen {
+  background: radial-gradient(circle, #1a291e 0%, #080d09 100%);
+}
+
+/* 3. Playa / Destino */
+.theme-beach-destination {
+  background: #04151f;
+  color: #e0f4fc;
+}
+.theme-beach-destination .card-section {
+  background: radial-gradient(circle, #0a2d42 0%, #020b12 100%);
+}
+.theme-beach-destination h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 3.2rem;
+  color: #90e0ef;
+}
+.theme-beach-destination h2 {
+  color: #00b4d8;
+}
+.theme-beach-destination .btn-action, .theme-beach-destination .btn-start-custom {
+  background: #00b4d8;
+  color: #04151f;
+}
+.theme-beach-destination .start-screen {
+  background: radial-gradient(circle, #0c3852 0%, #020b12 100%);
+}
+
+/* Tarjeta Única de Gala */
+.invitation-card {
+  width: 100%;
+  max-width: 420px;
+  min-height: 720px;
+  margin: auto;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 35px 25px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.style-gala-gold {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  border: 2px solid #d4af37;
+}
+.style-gala-gold .main-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.5rem;
+  color: #f3e5ab;
+  margin: 10px 0;
+}
+.style-gala-gold .sub-title { color: #d4af37; font-size: 0.85rem; letter-spacing: 2px; }
+.style-gala-gold .accent-btn {
+  background: linear-gradient(45deg, #d4af37, #aa7c11);
+  color: #000;
+  border: none;
+  padding: 14px;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px;
+  border-radius: 50px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modales Emergentes */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  background: #181822;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-box label {
+  display: block;
+  font-size: 0.85rem;
+  margin: 10px 0 4px;
+}
+
+.modal-box input, .modal-box select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
